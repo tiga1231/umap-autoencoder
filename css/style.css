@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+svg{
+  background: #eee;
+}
+
+.tick{
+  opacity: 0.1;
+}
+
+.caption{
+  text-align: center;
+  color: #555;
+  font-size: .9em;
+  font-style: italic;
+/*border: 3px solid green;*/
+}
+
+img{
+  width: 100%;
+}
+
+/*font-awesome*/
+.fas{
+  cursor: pointer;
+}
