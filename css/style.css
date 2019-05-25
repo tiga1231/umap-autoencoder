@@ -7,8 +7,9 @@ svg{
   background: #eee;
 }
 
-.tick{
-  opacity: 0.1;
+.tick line{
+  stroke: #aaa;
+  opacity: 0.3;
 }
 
 .caption{

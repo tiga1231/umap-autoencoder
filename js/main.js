@@ -72,7 +72,7 @@ class Svg{
     .range(d3.schemeCategory10);
 
     this.markers = this.svg.selectAll('.marker')
-    .data(umap.embeddings.slice(0,100))
+    .data(umap.embeddings.slice(0,2000))
     .enter()
     .append('circle')
     .attr('class', 'marker');
