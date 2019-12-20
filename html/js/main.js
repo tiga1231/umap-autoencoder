@@ -2,10 +2,9 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 const margin = 10;
 const markerSize = 3;
+
 async function main(){
-
   let model = await initModel({constants, url});
-
   let svg = new Svg('#plot', 
     width, height, margin,
     model, constants
@@ -17,9 +16,9 @@ async function main(){
   window.svg = svg;
 }
 
+
 class Svg{
   constructor(id, width, height, margin, model, constants){
-
     this.svg = d3.select('svg' + id)
     .attr('width', width)
     .attr('height', height);
@@ -31,6 +30,7 @@ class Svg{
     this.model = model;
     this.constants = constants;
   }
+
 
   initResetButton(){
     let resetButton = d3.select(this.svg.node().parentNode)
@@ -168,22 +168,26 @@ class Svg{
     return this;
   }
 
+
   drawWithParameter(param){
     let img = newImg(param, this.model);
     this.drawImg(img);
   }
+
 
   drawImg(img){
     this.imgRect
     .data(img)
     .attr('fill', d=>svg.scRecon(d));
   }
-  
+
 }
 
 
 
 //========= utils ==========
+
+
 async function initModel(config){
   let constants = config.constants;
   let url = config.url;
@@ -207,6 +211,7 @@ function newImg(parameters, model){
   reconstructed = Array.from(reconstructed);
   return reconstructed;
 }
+
 
 document.addEventListener('DOMContentLoaded', main);
 
