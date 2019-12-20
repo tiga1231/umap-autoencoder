@@ -1,7 +1,7 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 const margin = 10;
-
+const markerSize = 3;
 async function main(){
 
   let model = await initModel({constants, url});
@@ -72,15 +72,15 @@ class Svg{
     .range(d3.schemeCategory10);
 
     this.markers = this.svg.selectAll('.marker')
-    .data(umap.embeddings.slice(0,2000))
+    .data(data.embeddings.slice(0,4000))
     .enter()
     .append('circle')
     .attr('class', 'marker');
     this.markers = this.svg.selectAll('.marker')
     .attr('cx', d=>this.sxControl(d[0]))
     .attr('cy', d=>this.syControl(d[1]))
-    .attr('r', 2)
-    .attr('fill', (d,i)=>this.markerSc(umap.labels[i]));
+    .attr('r', markerSize)
+    .attr('fill', (d,i)=>this.markerSc(data.labels[i]));
 
     this.ax = d3.axisBottom(this.sxControl)
     .tickSizeInner(-this.height)
@@ -125,8 +125,10 @@ class Svg{
 
     this.zoom = d3.zoom()
     .on("zoom", ()=>{
-      this.markers.attr("transform", d3.event.transform);
-
+      let k = d3.event.transform.k;
+      this.markers
+      .attr("transform", d3.event.transform)
+      .attr('r', markerSize/Math.sqrt(k));
       //rescaled sx and sy
       this.rx = d3.event.transform.rescaleX(this.sxControl);
       this.ry = d3.event.transform.rescaleY(this.syControl);
@@ -139,7 +141,7 @@ class Svg{
   }
 
 
-  initRecon(){
+  initRecon(){ //the RECONstructed image 
     
     this.sxRecon = d3.scaleLinear()
     .domain([0,28])
@@ -191,7 +193,10 @@ async function initModel(config){
 }
 
 
-function newImg(parameters, model){
+function newImg(parameters, model){ 
+  //parameters: a tf tensor, 2d coordinate in the embedding
+  //model: a tf model, the 2d to image decoder 
+  //
   if(parameters===undefined){
     parameters = tf.randomUniform([1,2]);
   }else{
